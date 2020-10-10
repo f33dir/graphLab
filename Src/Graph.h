@@ -9,11 +9,13 @@ class Graph{
     vector<Node*> Nodes;
     void getChild(int,vector<int>&);
     Path getMinWay(int begin, int end);
-    Path getMaxWay(int begin, int end);
+    Path getMaxWay(int begin, int end,vector<Node*>,Path);
 public:
     Graph(vector<vector<int>>);
+    bool operator=(const Graph&);
     ~Graph();
     Node * getNode(int position){return Nodes[position];};
+    Node * getNode(int position,vector<Node *>vec ){return vec[position];};
     Path GetWay(int begin , int end ,bool Lenght);
     bool pathExist(int,int);
 };

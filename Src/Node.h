@@ -14,6 +14,7 @@ public:
     bool isVisited(){return _visited;}
     void setWave(int wave){_wave = wave;}
     int getWave(){return _wave;}
+    Node(Node*);    
 };
 
 #endif // !NODE_H

@@ -37,7 +37,9 @@ Path Graph::GetWay(int begin,int end,bool lenght){
     Path output;
     if(pathExist(begin,end)){
         if(lenght){
-            
+            Path passed;
+            passed._nodePaths.push_back(getNode(begin));
+            output = getMaxWay(begin,end,Nodes,passed);
         }
         else{
             output = getMinWay(begin,end);
@@ -73,12 +75,42 @@ Path Graph::getMinWay(int begin, int end){
     Node * currentNode = getNode(end);
     while(currentNode!=getNode(begin)){
         int j = 0;
-        while(getNode(currentNode->_out[j])->getWave()!=currentNode->getWave()-1){
+        Node * nextNode = getNode(0);
+        while(!((nextNode->getWave()==(currentNode->getWave()-1))&&(isIn(nextNode->_out,currentNode->getId())))){
             j++;
+            nextNode = getNode(j);
         }
+        currentNode = nextNode;
         output._nodePaths.insert(output._nodePaths.begin(),currentNode);
-        currentNode = getNode(currentNode->_out[j]);
     }
     output._nodePaths.insert(output._nodePaths.begin(),getNode(begin));
+    return output;
+}
+Path Graph::getMaxWay(int begin,int end,vector<Node*> tree,Path passed){
+    if(begin == end){
+        return passed;
+    };
+    Path output;
+    vector<Node*> newTree;
+    for(auto item:tree){
+        newTree.push_back(new Node(item));
+    }
+    newTree[begin]->visit();
+    vector<Path> Pathes;
+    for(auto node : newTree[begin]->_out){
+        Node  * current = getNode(node,newTree);
+        if(!current->isVisited()){
+            Path newPath = passed;
+            newPath._nodePaths.push_back(current);
+            Pathes.push_back(getMaxWay(node,end,newTree,newPath));
+        }
+    }
+    int maxLenght;
+    for(auto path :Pathes){
+        if(path.getLenght()>maxLenght){
+            maxLenght = path.getLenght();
+            output = path;
+        }
+    }
     return output;
 }

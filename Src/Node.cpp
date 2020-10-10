@@ -9,3 +9,9 @@ Node::Node(int id,vector<int> outs){
     }
 };
 
+Node::Node(Node*input){
+    this->_id = input->_id;
+    this->_out = vector<int>(input->_out);
+    this->_visited = input->_visited;
+    this->_wave = input->_wave;
+}

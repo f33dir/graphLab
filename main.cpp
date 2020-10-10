@@ -4,7 +4,6 @@
 #include "Src/Path.h"
 #include <vector>
 int main(int, char**) {
-    
     vector<vector<int>> input;//[line][number]
     int size;
     cin >> size;
@@ -21,5 +20,6 @@ int main(int, char**) {
     int a,b;
     cin >> a;
     cin >> b;
-    graph->GetWay(a,b,false);
+    Path way = graph->GetWay(a-1,b-1,true);
+    cout<<way.getLenght();
 }
