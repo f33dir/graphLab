@@ -1,6 +1,8 @@
 #include "Graph.h"
 #include <stack>
+#include <set>
 #include <algorithm>
+#include <math.h>
 using namespace std;
 Graph::Graph(vector<vector<int>> input ){
     for(int i = 0;i<input.size();i++){
@@ -110,4 +112,62 @@ Path Graph::getMaxWay(int begin,int end,vector<Node*> tree,Path passed){
         }
     }
     return output;
+}
+vector<vector<Path>> Graph::getCycles(){
+    vector<vector<Path>> output;
+    for(int i = 0;i<Nodes.size();i++){
+        auto node = getNode(i);
+        if(node->getColor() != 1){
+            Path temp;
+            output.push_back(sortOutReversedPathes(findCycles(temp,node->getId())));
+        }
+    }
+    return output;
+}
+vector<Path> Graph::findCycles(Path currentPath,int current){
+    Node* currentNode = getNode(current);
+    currentNode->setColor(1);
+    vector<Path> pathes;
+    currentPath._nodePaths.push_back(currentNode);
+    for(auto next : currentNode->_out){
+        Node * nextNode = getNode(next);
+        if(nextNode != (currentPath._nodePaths[currentPath._nodePaths.size()-2])){
+            if(!isIn(currentPath._nodePaths,nextNode)){
+                auto a = findCycles(currentPath,next);
+                nextNode->setColor(1);
+                pathes.insert(pathes.begin(),a.begin(),a.end());
+            }
+            else{
+                Path nextPath = currentPath;
+                nextNode->setColor(1);
+                while(nextNode!=nextPath._nodePaths[0])
+                    nextPath._nodePaths.erase(nextPath._nodePaths.begin());
+                pathes.push_back(nextPath);
+            }
+        }
+    }
+    return pathes;
+}
+vector<Path> Graph::sortOutReversedPathes(vector<Path> input){
+    if(input.size()>0){
+        int index = 0;
+        int size = input.size();
+        for(int i = input.size()-1;i>0;i--){
+            index++;            
+            vector<Node*> tmp = input[max((int)input.size() -index,0)]._nodePaths;
+            set<Node*> s1(tmp.begin(),tmp.end());
+            int j = 0;
+            if(input.size()>index){
+                while(j<input.size()-index){
+                    set<Node*> s2(input[j]._nodePaths.begin(),input[j]._nodePaths.end());
+                    if(s1 == s2 ){
+                        input.erase(input.begin()+j);
+                        j--;
+                    }
+                    j++;
+                }
+            }
+        }
+    }
+    return input;
 }

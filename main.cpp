@@ -17,11 +17,13 @@ int main(int, char**) {
     }
 
     Graph* graph  = new Graph(input);
-    int a,b;
-    cin >> a;
-    cin >> b;
-    Path way = graph->GetWay(a-1,b-1,true);
-    cout<<way.getLenght()-1<< endl;
-    way = graph->GetWay(a-1,b-1,false);
-    cout<<way.getLenght()-1<< endl;
+    // int a,b;
+    // cin >> a;
+    // cin >> b;
+    // Path way = graph->GetWay(a-1,b-1,true);
+    // cout<<way.getLenght()-1<< endl;
+    // way = graph->GetWay(a-1,b-1,false);
+    // cout<<way.getLenght()-1<< endl;
+    auto output =  graph->getCycles();
+    cout<<output.size();
 }

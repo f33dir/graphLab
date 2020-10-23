@@ -22,6 +22,9 @@ public:
     Node * getNode(int position,vector<Node *>vec ){return vec[position];};
     Path GetWay(int begin , int end ,bool Lenght);
     bool pathExist(int,int);
+    vector<vector<Path>> getCycles();
+    vector<Path> findCycles(Path,int);
+    vector<Path> sortOutReversedPathes(vector<Path> input);
 };
 
 #endif // !GRAPH_H
