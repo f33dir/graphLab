@@ -51,10 +51,7 @@ Path Graph::GetWay(int begin,int end,bool lenght){
         return output;
     }
 }
-template<class t>
-bool isIn(vector<t> vec,t item){
-    return find(vec.begin(),vec.end(),item)!=vec.end();
-}
+
 Path Graph::getMinWay(int begin, int end){
     Path output;
     vector<int> array;
@@ -68,7 +65,7 @@ Path Graph::getMinWay(int begin, int end){
             if(!nextNode->isVisited()){
                 array.push_back(out);
                 nextNode->setWave(currentNode->getWave()+1);
-                nextNode->visit();
+                nextNode->visit();  
             }
         }
     }

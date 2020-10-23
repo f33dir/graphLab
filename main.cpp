@@ -21,5 +21,7 @@ int main(int, char**) {
     cin >> a;
     cin >> b;
     Path way = graph->GetWay(a-1,b-1,true);
-    cout<<way.getLenght();
+    cout<<way.getLenght()-1<< endl;
+    way = graph->GetWay(a-1,b-1,false);
+    cout<<way.getLenght()-1<< endl;
 }
