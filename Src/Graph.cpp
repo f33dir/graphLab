@@ -148,6 +148,7 @@ vector<Path> Graph::findCycles(Path currentPath,int current){
     }
     return pathes;
 }
+
 vector<Path> Graph::sortOutReversedPathes(vector<Path> input){
     if(input.size()>0){
         int index = 0;
@@ -155,14 +156,26 @@ vector<Path> Graph::sortOutReversedPathes(vector<Path> input){
         for(int i = input.size()-1;i>0;i--){
             index++;            
             vector<Node*> tmp = input[max((int)input.size() -index,0)]._nodePaths;
-            set<Node*> s1(tmp.begin(),tmp.end());
             int j = 0;
             if(input.size()>index){
                 while(j<input.size()-index){
-                    set<Node*> s2(input[j]._nodePaths.begin(),input[j]._nodePaths.end());
-                    if(s1 == s2 ){
-                        input.erase(input.begin()+j);
-                        j--;
+                    vector<Node*> tmp2 = input[j]._nodePaths;
+                    for(int k = 0;k<tmp.size();k++){
+                        Node *  ex = tmp2[0];
+                        for(int l = 0;l<tmp2.size()-1;l++){
+                            tmp2[l] = tmp2[l+1];
+                        };
+                        tmp2[tmp2.size()-1] = ex;
+                        if(tmp == tmp2){
+                            input.erase(input.begin()+j);
+                            j--;
+                        }
+                        std::reverse(tmp2.begin(),tmp2.end());
+                        if(tmp == tmp2){
+                            input.erase(input.begin()+j);
+                            j--;
+                        }
+                        std::reverse(tmp2.begin(),tmp2.end());
                     }
                     j++;
                 }
